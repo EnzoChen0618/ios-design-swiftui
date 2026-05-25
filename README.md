@@ -1,31 +1,66 @@
 # ios-design-swiftui
 
-> 🍎 A Claude AI Skill that generates production-quality SwiftUI — 17 app domains, 4 visual styles, Apple HIG enforced by default.
+> 🍎 A system prompt that turns any AI into a senior Apple ecosystem architect — SwiftUI code that looks and feels like it shipped with iOS.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-iOS%2017%2B-lightgrey.svg)](https://developer.apple.com/swiftui/)
-[![Claude Skill](https://img.shields.io/badge/Claude-Skill-orange.svg)](https://claude.ai)
+[![Platform](https://img.shields.io/badge/iOS-17%2B-lightgrey.svg)](https://developer.apple.com/swiftui/)
+[![SwiftUI](https://img.shields.io/badge/SwiftUI-ready-orange.svg)](https://developer.apple.com/xcode/swiftui/)
 
 ---
 
 ## What is this?
 
-`ios-design-swiftui` is a Claude AI Skill that turns Claude into a senior Apple ecosystem experience architect. It enforces Apple's Human Interface Guidelines, auto-configures per-domain themes, and outputs SwiftUI code that looks and feels like it shipped with iOS — before writing a single line of code.
+`ios-design-swiftui` is a structured system prompt for AI-assisted iOS development. Paste it into any AI assistant and it instantly enforces Apple Human Interface Guidelines, auto-configures per-domain themes, and generates production-quality SwiftUI — before writing a single line of code.
 
-Most AI design skills are built for the web (React, shadcn, Tailwind). This one is built exclusively for **iOS native**, with deep knowledge of SwiftUI idioms, SF Symbols, Dynamic Type, VoiceOver, and Apple's visual language.
+Most AI design prompts are built for the web (React, shadcn, Tailwind). This one is built exclusively for **iOS native**, with deep knowledge of SwiftUI idioms, SF Symbols, Dynamic Type, VoiceOver, and Apple's visual language.
+
+**Works with:** ChatGPT · Cursor · GitHub Copilot · Claude · Gemini · Any LLM with a system prompt
+
+---
+
+## Quick Start
+
+### ChatGPT / Gemini
+1. Open a new conversation
+2. Copy the contents of `SKILL.md`
+3. Paste as your first message (or as a Custom Instruction in ChatGPT settings)
+4. Start describing your iOS screen
+
+### Cursor / VS Code Copilot
+1. Copy `SKILL.md` contents
+2. Add to `.cursor/rules` or your Copilot system prompt file
+3. The prompt activates for all SwiftUI files in your project
+
+### Claude (Desktop)
+1. Install `ios-design-swiftui.skill` directly — double-click or drag into the Skills panel
+2. Works automatically whenever you describe an iOS UI task
+
+### API / Custom Integration
+```python
+with open("SKILL.md", "r") as f:
+    system_prompt = f.read()
+
+response = client.chat.completions.create(
+    model="gpt-4o",  # or any model
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": "帮我写一个音乐 App 的播放器页面"}
+    ]
+)
+```
 
 ---
 
 ## Features
 
 ### 🎨 Aesthetic & Architecture Prelude
-Before any code is generated, Claude declares:
+Before any code is generated, the AI declares:
 - Visual tone, depth model, motion philosophy
-- View hierarchy blueprint (full component tree)
-- HIG compliance checklist
+- Full View Hierarchy Blueprint (component tree)
+- Apple HIG compliance checklist
 
 ### 🧠 17-Domain Smart Theme Engine
-Describe your app — the skill auto-detects the domain and configures the complete visual stack:
+Describe your app — the domain is auto-detected and the full visual stack is configured:
 
 | Domain | Primary Color | Default Style |
 |---|---|---|
@@ -51,75 +86,47 @@ Describe your app — the skill auto-detects the domain and configures the compl
 
 | Style | Character | Best For |
 |---|---|---|
-| **Minimal** | Pure signal, zero decoration, weight contrast drives hierarchy | Productivity, Jobs, Utility |
-| **Dark First** | Depth, drama, neon accents, colored glow shadows | Music, Gaming, Crypto |
+| **Minimal** | Pure signal, zero decoration, weight contrast | Productivity, Jobs, Utility |
+| **Dark First** | Depth, drama, neon accents, glow shadows | Music, Gaming, Crypto |
 | **Glassmorphic** | `.ultraThinMaterial`, gradient heroes, layered depth | Finance, Health, Weather |
 | **Vibrant** | Bold color, SF Rounded, bouncy springs, pill buttons | Social, Food, Pets |
 
 ### 📐 Typography & Component Standards
 - **Dynamic Type only** — zero hardcoded font sizes, ever
 - **Native components first** — `NavigationStack`, `List`, `.sheet`, `.searchable`
-- **8pt/16pt spacing grid** — `Spacing.xs/sm/md/lg/xl` tokens
+- **8pt/16pt spacing grid** — `Spacing.xs/sm/md/lg/xl` tokens throughout
 
 ### ♿️ Accessibility & Motion
 - Mandatory VoiceOver: `accessibilityLabel`, `accessibilityHint`, `.combine`, `.isHeader`
 - `@Environment(\.accessibilityReduceMotion)` guard on every animation
-- Spring values tuned per style variant
+- Spring values tuned per style variant (calm finance → bouncy social)
 
 ---
 
 ## Slash Commands
 
+These commands work in any conversational AI — just type them:
+
 | Command | Description |
 |---|---|
-| `/audit` | Score UI against Nielsen's 10 Heuristics + Apple HIG. Returns a scored table with 🔴/🟡/🟢 findings and corrected code snippets. |
-| `/theme [domain]` | Swap domain theme (e.g. `/theme music`). Updates all color/material/symbol tokens with a before/after diff. |
+| `/audit` | Score UI against Nielsen's 10 Heuristics + Apple HIG. Returns a scored table with 🔴/🟡/🟢 findings and corrected code. |
+| `/theme [domain]` | Swap domain theme (e.g. `/theme music`). Updates all color/material/symbol tokens with a diff. |
 | `/style [variant]` | Switch visual style without changing brand colors (e.g. `/style dark`). Updates backgrounds, cards, shadows, springs. |
-| `/template [domain] [screen]` | Generate a complete polished screen (e.g. `/template music player`, `/template weather today`). |
-| `/polish` | Refactor: extract reusable Views, normalize modifier order, lift state to ViewModel, replace magic numbers with tokens. |
+| `/template [domain] [screen]` | Generate a full screen (e.g. `/template music player`, `/template weather today`). |
+| `/polish` | Refactor: extract reusable Views, normalize modifier order, lift state to ViewModel, replace magic numbers. |
 | `/darkmode` | Convert any light-mode view to a Dark First variant. |
 
 ---
 
-## Quick Start
+## Example
 
-### 1. Install the skill
-Download `ios-design-swiftui.skill` and open it in **Claude for Desktop** (Cowork mode).
+**Prompt:** `帮我写一个金融理财 App 的资产总览页面`
 
-### 2. Describe your screen
-```
-帮我写一个音乐 App 的播放器页面
-```
-Claude auto-detects: Music → Dark First style → `#BF5AF2` purple theme  
-Then outputs: Aesthetic Intent Declaration → View Hierarchy Blueprint → full SwiftUI `NowPlayingView`
-
-### 3. Use slash commands
-```
-/template weather today
-/style glass
-/audit [paste your SwiftUI code]
-/theme crypto
-```
-
----
-
-## Example Output
-
-**Input:** `帮我写一个金融理财 App 的资产总览页面`
-
-**Output includes:**
-- 🎨 Aesthetic Intent: "临危不乱的专业感 + 数字带来的掌控感"
-- 🏗 View Hierarchy: `NavigationStack → ScrollView → TotalAssetsHeroCard + QuickActionsRow + AssetCategorySection + RecentTransactionSection`
-- 🎨 Finance theme tokens (`#1A5CFF`, `.ultraThinMaterial`, `.hierarchical`)
-- Complete SwiftUI with Dark Mode, VoiceOver, spring animations, 8pt spacing grid
-
----
-
-## Requirements
-
-- **Claude for Desktop** with Cowork mode (or any Claude environment supporting Skills)
-- Generated SwiftUI targets **iOS 17+**
-- Xcode 15+ recommended for `@Observable` macro support
+**The AI will output:**
+1. 🎨 **Aesthetic Intent** — "临危不乱的专业感 + 数字带来的掌控感"
+2. 🏗 **View Hierarchy** — `NavigationStack → ScrollView → HeroCard + QuickActions + CategoryList + Transactions`
+3. 🎨 **Theme Tokens** — `#1A5CFF`, `.ultraThinMaterial`, `.hierarchical` SF Symbols
+4. **Complete SwiftUI** — Dark Mode adaptive, VoiceOver, spring animations, 8pt spacing grid
 
 ---
 
@@ -127,10 +134,18 @@ Then outputs: Aesthetic Intent Declaration → View Hierarchy Blueprint → full
 
 ```
 ios-design-swiftui/
-├── README.md
-├── SKILL.md                  ← Full skill prompt (17 domains, 4 styles, 6 commands)
-└── ios-design-swiftui.skill  ← Installable skill package
+├── README.md                   ← This file
+├── SKILL.md                    ← The full system prompt (copy this into any AI)
+└── ios-design-swiftui.skill    ← One-click install for Claude Desktop
 ```
+
+---
+
+## Requirements
+
+- Generated SwiftUI targets **iOS 17+**
+- Xcode 15+ recommended (`@Observable` macro support)
+- Any AI assistant capable of receiving a system prompt
 
 ---
 
